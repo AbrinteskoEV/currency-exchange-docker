@@ -34,5 +34,3 @@ WORKDIR /usr/share/tarantool/currency-exchange
 
 CMD ["/bin/sh", "-c", "TARANTOOL_WORKDIR=/var/lib/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default} TARANTOOL_PID_FILE=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.pid TARANTOOL_CONSOLE_SOCK=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.control && cartridge start"]
 
-#CMD ["/bin/sh", "-c", "TARANTOOL_WORKDIR=/var/lib/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default} TARANTOOL_PID_FILE=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.pid TARANTOOL_CONSOLE_SOCK=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.control && cartridge start"]
-
