@@ -1,0 +1,28 @@
+init:
+	@cp -R ~/.ssh docker/tarantool/.ssh
+	@docker-compose -f ./docker/tarantool/docker-compose.yml build
+	@docker-compose -f ./docker/tarantool/docker-compose.yml up -d
+	@rm -rf ./docker/tarantool/.ssh
+
+deploy-currency-exchange:
+	@rm -rf projects/currency-exchange
+	@mkdir -p projects
+	@cp -R ~/.ssh docker/currency-exchange/php-fpm/.ssh
+	@cp -R ~/.ssh docker/currency-exchange/tarantool/.ssh
+	@docker-compose -f ./docker/currency-exchange/docker-compose.yml build 
+	@docker-compose -f ./docker/currency-exchange/docker-compose.yml up -d -V
+	@rm -rf ./docker/currency-exchange/php-fpm/.ssh
+	@rm -rf ./docker/currency-exchange/tarantool/.ssh
+
+exec-currency-exchange:
+	@docker exec -it currency-exchange-php bash
+
+exec-tarantool:
+	@docker exec -it currency-exchange-tarantool bash
+
+down-currency-exchange:
+	@docker-compose -f ./docker/currency-exchange/docker-compose.yml down --remove-orphans -v
+
+down: down-currency-exchange
+
+clean: down-tarantool

@@ -1,0 +1,38 @@
+FROM tarantool/tarantool:2.x-centos7
+
+ENV TARANTOOL_INSTANCE_NAME=default
+ENV TARANTOOL_USER_NAME=user
+ENV TARANTOOL_USER_PASSWORD=password
+USER root
+
+ENV TZ=Europe/Moscow
+ENV LANG ru_RU.utf8
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN yum update -y && yum install -y unzip cmake make npm shadow-utils.x86_64 cartridge-cli git bash sudo libpq gcc
+RUN yum install -y gcc-c++
+RUN cartridge gen completion --skip-bash --zsh="${fpath[1]}/_cartridge"
+RUN luarocks install xml2lua
+
+RUN yum -y install epel-release && yum -y groupinstall "Development Tools" && yum -y install readline-devel ncurses-devel && yum clean all
+
+RUN curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz && tar -xzf lua-5.3.5.tar.gz && cd lua-5.3.5 && make linux test && make install && cd .. && rm -rf lua-5.3.5.tar.gz lua-5.3.5
+    
+RUN mkdir -p /home
+
+RUN passwd -d tarantool
+COPY .ssh /home/tarantool/.ssh
+RUN chown -R tarantool:root /var/run/ /var/log/ /opt
+RUN chown -R tarantool:tarantool /home/tarantool/ /usr/share/tarantool /var/log /var/lib/tarantool /var/run/tarantool
+
+USER tarantool
+
+RUN git config --global user.email "abrijenya@mail.ru"
+RUN git config --global user.name "AbrinteskoEV"
+
+WORKDIR /usr/share/tarantool/currency-exchange
+
+CMD ["/bin/sh", "-c", "TARANTOOL_WORKDIR=/var/lib/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default} TARANTOOL_PID_FILE=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.pid TARANTOOL_CONSOLE_SOCK=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.control && cartridge start"]
+
+#CMD ["/bin/sh", "-c", "TARANTOOL_WORKDIR=/var/lib/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default} TARANTOOL_PID_FILE=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.pid TARANTOOL_CONSOLE_SOCK=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.control && cartridge start"]
+
