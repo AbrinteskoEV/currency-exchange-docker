@@ -25,12 +25,14 @@ COPY .ssh /home/tarantool/.ssh
 RUN chown -R tarantool:root /var/run/ /var/log/ /opt
 RUN chown -R tarantool:tarantool /home/tarantool/ /usr/share/tarantool /var/log /var/lib/tarantool /var/run/tarantool
 
-USER tarantool
+COPY entrypoint.cli.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-RUN git config --global user.email "abrijenya@mail.ru"
-RUN git config --global user.name "AbrinteskoEV"
+RUN passwd -d root
+
+USER tarantool
 
 WORKDIR /usr/share/tarantool/currency-exchange
 
-CMD ["/bin/sh", "-c", "TARANTOOL_WORKDIR=/var/lib/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default} TARANTOOL_PID_FILE=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.pid TARANTOOL_CONSOLE_SOCK=/var/run/tarantool/currency-exchange.${TARANTOOL_INSTANCE_NAME:-default}.control && cartridge start"]
+ENTRYPOINT [ "/entrypoint.sh" ]
 
