@@ -1,3 +1,4 @@
 projects
 docker/*/.ssh
 docker/*/*/.ssh
+.idea
