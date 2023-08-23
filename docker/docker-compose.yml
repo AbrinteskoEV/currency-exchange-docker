@@ -21,7 +21,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ../../projects/currency-exchange:/var/www:rw
+      - ../projects/currency-exchange:/var/www:rw
     build:
       context: ./php-fpm
       dockerfile: Dockerfile
@@ -35,7 +35,7 @@ services:
       - TARANTOOL_USER_NAME=currency_exchange
       - TARANTOOL_USER_PASSWORD=password
     volumes:
-      - ../../projects/tarantool:/usr/share/tarantool/currency-exchange:rw
+      - ../projects/tarantool:/usr/share/tarantool/currency-exchange:rw
     build:
       context: ./tarantool
       dockerfile: Dockerfile
