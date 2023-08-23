@@ -3,7 +3,7 @@ FROM php:8.1-fpm-alpine3.14
 ENV TZ=Europe/Moscow
 ENV LANG ru_RU.utf8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apk update && apk add libpq curl-dev libpng-dev libxml2-dev autoconf build-base supervisor git bash openssh-client-default sudo mc openssl-dev
+RUN apk update && apk add libpq curl-dev libpng-dev libxml2-dev autoconf build-base supervisor git bash openssh-client-default sudo mc openssl-dev busybox-suid
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"

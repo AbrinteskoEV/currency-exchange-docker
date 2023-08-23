@@ -4,8 +4,16 @@
 ### Deploy application
 
 ```bash
+make init
+```
+
+Wait until tarantool builds (you can check WebUI http://localhost:8888/)
+
+```bash
 make deploy
 ```
+
+After deploying you can use application!
 
 ### Down application
 
@@ -27,4 +35,4 @@ make exec-tarantool
 
 ## Tarantool
 
-WebUI: http://localhost:8888
+WebUI: http://localhost:8888/

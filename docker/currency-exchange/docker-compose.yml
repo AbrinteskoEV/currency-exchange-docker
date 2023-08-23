@@ -21,32 +21,13 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ../projects/currency-exchange:/var/www:rw
+      - ../../projects/currency-exchange:/var/www:rw
     build:
       context: ./php-fpm
       dockerfile: Dockerfile
       args:
         - UID=$UID
         - SITE_URL=exchange.currency
-    restart: unless-stopped
-  tarantool:
-    container_name: currency-exchange-tarantool
-    environment:
-      - TARANTOOL_USER_NAME=currency_exchange
-      - TARANTOOL_USER_PASSWORD=password
-    volumes:
-      - ../projects/tarantool:/usr/share/tarantool/currency-exchange:rw
-    build:
-      context: ./tarantool
-      dockerfile: Dockerfile
-      args:
-        - UID=$UID
-    labels:
-      ru.grachevko.dhu: tarantool.currency-exchange
-    networks:
-      currency-exchange:
-    ports:
-      - "8888:8081"
     restart: unless-stopped
 networks:
   currency-exchange:

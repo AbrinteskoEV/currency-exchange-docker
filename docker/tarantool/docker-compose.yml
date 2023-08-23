@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  tarantool:
+    container_name: currency-exchange-tarantool
+    environment:
+      - TARANTOOL_USER_NAME=currency_exchange
+      - TARANTOOL_USER_PASSWORD=password
+    volumes:
+      - ../../projects/tarantool:/usr/share/tarantool/currency-exchange:rw
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - UID=$UID
+    labels:
+      ru.grachevko.dhu: tarantool.currency-exchange
+    networks:
+      currency-exchange:
+    ports:
+      - "8888:8081"
+    restart: unless-stopped
+networks:
+  currency-exchange:
+    external:
+      name: currency-exchange
