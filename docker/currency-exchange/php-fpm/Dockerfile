@@ -43,8 +43,6 @@ RUN chmod +x /entrypoint.sh
 
 WORKDIR /var/www
 USER oem
-
-#RUN crontab -l | { cat; echo "* * * * * php artisan schedule:run"; } | crontab -
-
+RUN crontab -l | { cat; echo "* * * * * php /var/www/artisan schedule:run"; } | crontab -
 ENTRYPOINT [ "/entrypoint.sh" ]
 
