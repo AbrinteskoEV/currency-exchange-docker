@@ -4,7 +4,6 @@
 ### Deploy application
 
 ```bash
-make network
 make init
 ```
 
@@ -22,7 +21,7 @@ After deploying you can use application!
 make down
 ```
 
-### Clean Tarantool
+### Clean application
 ```bash
 make clean
 ```

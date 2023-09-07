@@ -1,7 +1,5 @@
-network:
-	@docker network create currency-exchange
-
 init:
+    @docker network create currency-exchange
 	@rm -rf projects/tarantool
 	@mkdir -p projects
 	@cp -R ~/.ssh docker/tarantool/.ssh
@@ -28,3 +26,4 @@ down:
 
 clean:
 	@docker-compose -f ./docker/tarantool/docker-compose.yml down --remove-orphans -v
+    @docker network rm currency-exchange
