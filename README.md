@@ -4,6 +4,7 @@
 ### Deploy application
 
 ```bash
+make network
 make init
 ```
 
@@ -19,6 +20,11 @@ After deploying you can use application!
 
 ```bash
 make down
+```
+
+### Clean Tarantool
+```bash
+make clean
 ```
 
 ### Go into docker containers:
